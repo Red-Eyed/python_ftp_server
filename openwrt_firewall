@@ -1,0 +1,19 @@
+config redirect
+        option target 'DNAT'
+        option proto 'tcp udp'
+        option dest 'wan'
+        option src 'lan'
+        option dest_ip '192.168.1.2'
+        option name 'sharing_lan2wan'
+        option src_dport '60000:61000'
+        option dest_port '60000:61000'
+
+config redirect
+        option target 'DNAT'
+        option src 'wan'
+        option dest 'lan'
+        option proto 'tcp udp'
+        option dest_ip '192.168.1.2'
+        option name 'sharing_wan2lan'
+        option src_dport '60000:61000'
+        option dest_port '60000:61000'
