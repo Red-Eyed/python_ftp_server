@@ -46,7 +46,7 @@ if __name__ == '__main__':
     server = FTPServer((get_private_ip(), args.port), handler)
 
     print("Private address: ftp://{}:{}".format(get_private_ip(), args.port))
-    print("Public address: ftp://{}:{}".format(get_private_ip(), args.port))
+    print("Public address: ftp://{}:{}".format(get_public_ip(), args.port))
     print("User: {}".format(args.user))
     print("Password: {}".format(args.password))
     print()
