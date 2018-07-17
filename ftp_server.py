@@ -5,9 +5,17 @@ __author__ = "Vadym Stupakov"
 __maintainer__ = "Vadym Stupakov"
 __email__ = "vadim.stupakov@gmail.com"
 
-from pyftpdlib.authorizers import DummyAuthorizer
-from pyftpdlib.handlers import FTPHandler
-from pyftpdlib.servers import FTPServer
+import pip
+
+for i in range(2):
+    try:
+        from pyftpdlib.authorizers import DummyAuthorizer
+        from pyftpdlib.handlers import FTPHandler
+        from pyftpdlib.servers import FTPServer
+        break
+    except ImportError:
+        pip.main(["install", "pyftpdlib", "--user"])
+
 import argparse
 from pathlib import Path
 import socket
