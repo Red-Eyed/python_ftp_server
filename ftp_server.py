@@ -24,11 +24,16 @@ import socket
 import requests
 
 
-def get_private_ip():
-        return socket.gethostname()
+def get_local_ip():
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+        s.connect(("8.8.8.8", 80))
+        return s.getsockname()[0]
+
+def get_hostname():
+    return socket.gethostname()
 
 
-def get_public_ip():
+def get_global_ip():
     return requests.get('http://ip.42.pl/raw').text
 
 
@@ -47,7 +52,7 @@ if __name__ == '__main__':
     parser.add_argument("-p", "--password", type=str, required=True)
     parser.add_argument("-r", "--readonly", action="store_true")
     parser.add_argument("-d", "--dir", type=Path, default=Path().cwd())
-    parser.add_argument("--ip", type=str, default=get_private_ip())
+    parser.add_argument("--ip", type=str, default=get_hostname())
     parser.add_argument("--port", type=int, default=60000)
     parser.add_argument("--port_range", default=range(60001, 61001))
 
@@ -68,10 +73,10 @@ if __name__ == '__main__':
     handler.authorizer = authorizer
     handler.use_sendfile = True
 
-    server = FTPServer((get_private_ip(), args.port), handler)
+    server = FTPServer((get_hostname(), args.port), handler)
 
-    print("Private address: ftp://{}:{}".format(get_private_ip(), args.port))
-    print("Public address: ftp://{}:{}".format(get_public_ip(), args.port))
+    print("Local address: ftp://{}:{}".format(get_hostname(), args.port))
+    print("Global address: ftp://{}:{}".format(get_global_ip(), args.port))
     print("User: {}".format(args.user))
     print("Password: {}".format(args.password))
     print()
