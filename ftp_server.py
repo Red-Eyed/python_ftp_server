@@ -75,7 +75,9 @@ if __name__ == '__main__':
 
     server = FTPServer((get_hostname(), args.port), handler)
 
-    print("Local address: ftp://{}:{}".format(get_hostname(), args.port))
+    print("Local address: ftp://{0}:{2}\n" \
+          "               ftp://{1}:{2}".format(get_hostname(), get_local_ip(), args.port))
+
     print("Global address: ftp://{}:{}".format(get_global_ip(), args.port))
     print("User: {}".format(args.user))
     print("Password: {}".format(args.password))
