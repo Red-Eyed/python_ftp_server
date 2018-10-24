@@ -35,7 +35,15 @@ def get_public_ip():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser("FTP server for file sharing")
+    example_text = "example:\n" \
+                   "    {0} -u user -p password\n" \
+                   "    {0} -u user -p password --readonly\n" \
+                   "    {0} -u user -p password --dir /tmp\n".format(__file__)
+
+    parser = argparse.ArgumentParser(prog="ftp_server",
+                                 description="FTP server for file sharing over internet or local network",
+                                 epilog=example_text,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument("-u", "--user", type=str, required=True)
     parser.add_argument("-p", "--password", type=str, required=True)
