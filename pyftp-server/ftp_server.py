@@ -6,18 +6,12 @@ __maintainer__ = "Vadym Stupakov"
 __email__ = "vadim.stupakov@gmail.com"
 
 
-for i in range(2):
-    try:
-        from pyftpdlib.authorizers import DummyAuthorizer
-        from pyftpdlib.handlers import FTPHandler
-        from pyftpdlib.servers import FTPServer
-        break
-    except ImportError:
-        import subprocess
-        from pathlib import Path
-        requirements = Path(__file__).parent / "requirements.txt"
-        subprocess.call(["pip3", "install", "--user", "-r", requirements])
 
+from pyftpdlib.authorizers import DummyAuthorizer
+from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.servers import FTPServer
+
+import platform
 import argparse
 from pathlib import Path
 import socket
@@ -52,6 +46,7 @@ if __name__ == '__main__':
     parser.add_argument("-p", "--password", type=str, required=True)
     parser.add_argument("-r", "--readonly", action="store_true")
     parser.add_argument("-d", "--dir", type=Path, default=Path().cwd())
+    parser.add_argument("-g", "--use_global", action="store_true")
     parser.add_argument("--ip", type=str, default=get_hostname())
     parser.add_argument("--port", type=int, default=60000)
     parser.add_argument("--port_range", default=range(60001, 61001))
@@ -71,16 +66,20 @@ if __name__ == '__main__':
     handler = FTPHandler
     handler.passive_ports = args.port_range
     handler.authorizer = authorizer
-    handler.use_sendfile = True
+
+    if "Linux" in platform.system():
+        handler.use_sendfile = True
 
     server = FTPServer((get_local_ip(), args.port), handler)
 
-    print("Local address: ftp://{0}:{2}\n" \
-          "               ftp://{1}:{2}".format(get_hostname(), get_local_ip(), args.port))
+    print("\n\n\n\n")
+    print(f"Local address: ftp://{get_local_ip()}:{args.port}")
 
-    print("Global address: ftp://{}:{}".format(get_global_ip(), args.port))
-    print("User: {}".format(args.user))
-    print("Password: {}".format(args.password))
+    if args.use_global:
+        print(f"Global address: ftp://{get_global_ip()}:{args.port}")
+
+    print(f"User: {args.user}")
+    print(f"Password: {args.password}")
     print()
 
     server.serve_forever()
