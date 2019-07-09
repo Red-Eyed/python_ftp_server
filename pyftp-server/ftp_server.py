@@ -8,8 +8,8 @@ __maintainer__ = "Vadym Stupakov"
 __email__ = "vadim.stupakov@gmail.com"
 
 from pyftpdlib.authorizers import DummyAuthorizer
-from pyftpdlib.handlers import TLS_FTPHandler
-from pyftpdlib.servers import FTPServer
+from pyftpdlib.handlers import TLS_FTPHandler as FTPHandler
+from pyftpdlib.servers import ThreadedFTPServer as FTPServer
 from OpenSSL import crypto
 
 import platform
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     authorizer = DummyAuthorizer()
     authorizer.add_user(args.user, args.password, str(args.dir), perm=permissions)
 
-    handler = TLS_FTPHandler
+    handler = FTPHandler
 
     cert_file = Path(tempfile.gettempdir(), "cert_file.crt")
     key_file = Path(tempfile.gettempdir(), "key_file.key")
@@ -99,6 +99,9 @@ if __name__ == '__main__':
 
     handler.certfile = str(cert_file.absolute())
     handler.keyfile = str(key_file.absolute())
+    handler.tls_control_required = True
+    handler.tls_data_required = True
+
     handler.passive_ports = args.port_range
     handler.authorizer = authorizer
 
