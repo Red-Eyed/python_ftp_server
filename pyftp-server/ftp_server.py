@@ -17,6 +17,13 @@ import argparse
 from pathlib import Path
 import socket
 import requests
+import string
+
+
+def generate_password(strength):
+    chars = string.ascii_letters
+    passwd = "".join(random.choice(chars) for i in range(strength))
+    return passwd
 
 
 def get_local_ip():
@@ -70,8 +77,8 @@ if __name__ == '__main__':
                                      epilog=example_text,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    parser.add_argument("-u", "--user", type=str, required=True)
-    parser.add_argument("-p", "--password", type=str, required=True)
+    parser.add_argument("-u", "--user", type=str, default="user")
+    parser.add_argument("-p", "--password", type=str, default=generate_password(strength=20))
     parser.add_argument("-r", "--readonly", action="store_true")
     parser.add_argument("-d", "--dir", type=Path, default=Path().cwd())
     parser.add_argument("-g", "--use_global", action="store_true")
