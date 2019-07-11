@@ -41,8 +41,11 @@ def get_global_ip():
 
 
 def create_self_signed_cert(cert_file: Path, key_file: Path):
-    cert_file.unlink()
-    key_file.unlink()
+    try:
+        cert_file.unlink()
+        key_file.unlink()
+    except FileNotFoundError:
+        pass
 
     # create a key pair
     k = crypto.PKey()
