@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import random
-import tempfile
 
 __author__ = "Vadym Stupakov"
 __maintainer__ = "Vadym Stupakov"
 __email__ = "vadim.stupakov@gmail.com"
 
+import argparse
+import platform
+import random
+import socket
+import string
+import tempfile
+from pathlib import Path
+
+import requests
+from OpenSSL import crypto
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import TLS_FTPHandler as FTPHandler
 from pyftpdlib.servers import FTPServer as FTPServer
-from OpenSSL import crypto
-
-import platform
-import argparse
-from pathlib import Path
-import socket
-import requests
-import string
 
 
 def generate_password(strength):
