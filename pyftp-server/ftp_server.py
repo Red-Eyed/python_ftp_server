@@ -9,7 +9,7 @@ __email__ = "vadim.stupakov@gmail.com"
 
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import TLS_FTPHandler as FTPHandler
-from pyftpdlib.servers import ThreadedFTPServer as FTPServer
+from pyftpdlib.servers import FTPServer as FTPServer
 from OpenSSL import crypto
 
 import platform
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     parser.add_argument("-g", "--use_global", action="store_true")
     parser.add_argument("--ip", type=str, default=get_hostname())
     parser.add_argument("--port", type=int, default=60000)
-    parser.add_argument("--port_range", default=range(60001, 61001))
+    parser.add_argument("--port_range", default=range(60001, 60101))
 
     args = parser.parse_args()
 
