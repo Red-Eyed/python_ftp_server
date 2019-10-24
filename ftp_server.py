@@ -10,7 +10,6 @@ import platform
 import random
 import socket
 import string
-import tempfile
 from pathlib import Path
 
 import requests
@@ -18,7 +17,6 @@ from OpenSSL import crypto
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import TLS_FTPHandler as FTPHandler
 from pyftpdlib.servers import FTPServer as FTPServer
-
 
 def generate_password(strength):
     chars = string.ascii_letters
@@ -41,11 +39,14 @@ def get_global_ip():
 
 
 def create_self_signed_cert(cert_file: Path, key_file: Path):
-    try:
-        cert_file.unlink()
-        key_file.unlink()
-    except FileNotFoundError:
-        pass
+    if cert_file.exists() and key_file.exists():
+        return
+    else:
+        try:
+            cert_file.unlink()
+            key_file.unlink()
+        except FileNotFoundError:
+            print("Generating cert files")
 
     # create a key pair
     k = crypto.PKey()
@@ -103,8 +104,11 @@ if __name__ == '__main__':
 
     handler = FTPHandler
 
-    cert_file = Path(tempfile.gettempdir(), "cert_file.crt")
-    key_file = Path(tempfile.gettempdir(), "key_file.key")
+    temp_dir = Path(__file__).absolute().parent / "temp"
+    temp_dir.mkdir(exist_ok=True)
+
+    cert_file = temp_dir / "cert_file.crt"
+    key_file = temp_dir / "key_file.key"
     create_self_signed_cert(cert_file, key_file)
 
     handler.certfile = str(cert_file.absolute())
