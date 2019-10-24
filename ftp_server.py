@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import logging
 
 __author__ = "Vadym Stupakov"
 __maintainer__ = "Vadym Stupakov"
@@ -17,6 +18,8 @@ from OpenSSL import crypto
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import TLS_FTPHandler as FTPHandler
 from pyftpdlib.servers import FTPServer as FTPServer
+
+logging.basicConfig(level=logging.INFO)
 
 
 def generate_password(strength):
@@ -62,7 +65,8 @@ def create_self_signed_cert(cert_file: Path, key_file: Path):
     cert.gmtime_adj_notAfter(10 * 365 * 24 * 60 * 60)
     cert.set_issuer(cert.get_subject())
     cert.set_pubkey(k)
-    cert.sign(k, 'sha256')
+    cert.set_pubkey(k)
+    cert.sign(k, b'sha256')
 
     with open(str(cert_file), "wt") as f:
         f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode("utf8"))
