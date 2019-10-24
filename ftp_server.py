@@ -18,6 +18,7 @@ from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import TLS_FTPHandler as FTPHandler
 from pyftpdlib.servers import FTPServer as FTPServer
 
+
 def generate_password(strength):
     chars = string.ascii_letters
     passwd = "".join(random.choice(chars) for i in range(strength))
