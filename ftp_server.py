@@ -14,7 +14,7 @@ import string
 from pathlib import Path
 
 import requests
-from OpenSSL import crypto
+from OpenSSL import crypto, SSL
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import TLS_FTPHandler as FTPHandler
 from pyftpdlib.servers import FTPServer as FTPServer
@@ -120,6 +120,7 @@ if __name__ == '__main__':
     handler.keyfile = str(key_file.absolute())
     handler.tls_control_required = True
     handler.tls_data_required = True
+    handler.ssl_protocol = SSL.TLSv1_2_METHOD
 
     handler.passive_ports = args.port_range
     handler.authorizer = authorizer
