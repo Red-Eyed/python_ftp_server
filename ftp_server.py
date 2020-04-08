@@ -66,7 +66,7 @@ def create_self_signed_cert(cert_file: Path, key_file: Path):
     cert.set_issuer(cert.get_subject())
     cert.set_pubkey(k)
     cert.set_pubkey(k)
-    cert.sign(k, b'sha256')
+    cert.sign(k, 'sha256')
 
     with open(str(cert_file), "wt") as f:
         f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode("utf8"))
