@@ -16,7 +16,7 @@ from pathlib import Path
 import requests
 from OpenSSL import crypto, SSL
 from pyftpdlib.authorizers import DummyAuthorizer
-from pyftpdlib.handlers import TLS_FTPHandler as FTPHandler
+from pyftpdlib.handlers import TLS_FTPHandler, FTPHandler
 from pyftpdlib.servers import FTPServer as FTPServer
 
 logging.basicConfig(level=logging.INFO)
@@ -86,6 +86,7 @@ if __name__ == '__main__':
                                      epilog=example_text,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
 
+    parser.add_argument("--tls", action="store_true")
     parser.add_argument("-u", "--user", type=str, default="user")
     parser.add_argument("-p", "--password", type=str, default=generate_password(strength=20))
     parser.add_argument("-r", "--readonly", action="store_true")
@@ -107,20 +108,22 @@ if __name__ == '__main__':
     authorizer = DummyAuthorizer()
     authorizer.add_user(args.user, args.password, str(args.dir), perm=permissions)
 
-    handler = FTPHandler
+    if args.tls:
+        handler = TLS_FTPHandler
+        temp_dir = Path(__file__).absolute().parent / "temp"
+        temp_dir.mkdir(exist_ok=True)
 
-    temp_dir = Path(__file__).absolute().parent / "temp"
-    temp_dir.mkdir(exist_ok=True)
-
-    cert_file = temp_dir / "cert_file.crt"
-    key_file = temp_dir / "key_file.key"
-    create_self_signed_cert(cert_file, key_file)
-
-    handler.certfile = str(cert_file.absolute())
-    handler.keyfile = str(key_file.absolute())
-    handler.tls_control_required = True
-    handler.tls_data_required = True
-    handler.ssl_protocol = SSL.TLSv1_2_METHOD
+        cert_file = temp_dir / "cert_file.crt"
+        key_file = temp_dir / "key_file.key"
+        create_self_signed_cert(cert_file, key_file)
+        
+        handler.certfile = str(cert_file.absolute())
+        handler.keyfile = str(key_file.absolute())
+        handler.tls_control_required = True
+        handler.tls_data_required = True
+        handler.ssl_protocol = SSL.TLSv1_2_METHOD
+    else:
+        handler = FTPHandler
 
     handler.passive_ports = args.port_range
     handler.authorizer = authorizer
