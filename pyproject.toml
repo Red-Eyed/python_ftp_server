@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python_ftp_server"
-version = "1.0"
+version = "1.1"
 description = "Command line FTP server tool designed for performance and ease of use."
 authors = ["Vadym Stupakov <vadim.stupakov@gmail.com>"]
 license = "MIT"
@@ -17,7 +17,7 @@ classifiers = [
 ]
 
 [dependencies]
-requires =  [
+requires = [
     "requests >= 2.26",
     "pyftpdlib >= 1.5.6",
     "pyopenssl >= 21.0.0",
@@ -28,6 +28,3 @@ requires =  [
 requires = [
     "pyinstaller >= 4.7",
 ]
-
-[tool.poetry.scripts]
-ftp_server = "ftp_server.ftp_server:main"
