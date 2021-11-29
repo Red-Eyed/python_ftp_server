@@ -17,7 +17,7 @@ classifiers = [
 ]
 
 [dependencies]
-python = "^3.6"
+python_full_version = ">=3.6"
 requires = [
     "requests >= 2.26",
     "pyftpdlib >= 1.5.6",
