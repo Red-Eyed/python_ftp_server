@@ -1,4 +1,0 @@
-requests
-pyftpdlib
-pyopenssl
-pysendfile
