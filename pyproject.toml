@@ -1,13 +1,10 @@
-[project]
+[tool.poetry]
 name = "python_ftp_server"
 version = "1.0"
 description = "Command line FTP server tool designed for performance and ease of use."
-authors = [
-    "Vadym Stupakov <vadim.stupakov@gmail.com>"
-]
+authors = ["Vadym Stupakov <vadim.stupakov@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-python = "^3.6"
 homepage = "https://github.com/Red-Eyed/python_ftp_server"
 repository = "https://github.com/Red-Eyed/python_ftp_server"
 documentation = "https://github.com/Red-Eyed/python_ftp_server"
@@ -32,5 +29,5 @@ requires = [
     "pyinstaller >= 4.7",
 ]
 
-[scripts]
-poetry = "ftp_server:main"
+[tool.poetry.scripts]
+ftp_server = "ftp_server.ftp_server:main"

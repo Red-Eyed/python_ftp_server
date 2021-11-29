@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT_PATH = Path(__file__).parent
 BUILD_DIR = ROOT_PATH / "build"
-SCRIPT_PATH = ROOT_PATH / "ftp_server.py"
+SCRIPT_PATH = ROOT_PATH / "python_ftp_server/ftp_server.py"
 
 if __name__ == '__main__':
     env = os.environ.copy()

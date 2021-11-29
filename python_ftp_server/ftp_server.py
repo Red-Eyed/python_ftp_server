@@ -75,7 +75,7 @@ def create_self_signed_cert(cert_file: Path, key_file: Path):
         f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode("utf8"))
 
 
-if __name__ == '__main__':
+def main():
     example_text = "example:\n" \
                    "    {0} -u user -p password\n" \
                    "    {0} -u user -p password --readonly\n" \
@@ -116,7 +116,7 @@ if __name__ == '__main__':
         cert_file = temp_dir / "cert_file.crt"
         key_file = temp_dir / "key_file.key"
         create_self_signed_cert(cert_file, key_file)
-        
+
         handler.certfile = str(cert_file.absolute())
         handler.keyfile = str(key_file.absolute())
         handler.tls_control_required = True
@@ -144,3 +144,6 @@ if __name__ == '__main__':
     print()
 
     server.serve_forever()
+
+if __name__ == '__main__':
+    main()
