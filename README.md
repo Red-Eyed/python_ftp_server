@@ -1,5 +1,12 @@
-# Simple FTP server
+# FTP server to transfer files between machines with zero configuration
 ## Usage
-1. Configure firewall and ports forwarding (If you are behind NAT and OpenWRT is installed on your router, look at "./openwrt_firewall" and add it to the end of "/etc/config/firewall" on your router)
-2. Go to your directory that you want to share and run
-`./ftp_server.py`
+1. `python3 -m pip install python-ftp-server`
+2. `python3 -m python_ftp_server -d "dirctory/to/share"`
+will print:
+```bash
+Local address: ftp://<IP>:60000
+User: <USER>
+Password: <PASSWORD>
+```
+3. Copy and paste your `IP`, `USER`, `PASSWORD`, `PORT` into [FileZilla](https://filezilla-project.org/) (or any other FTP client):
+![img.png](img.png)
