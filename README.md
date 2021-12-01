@@ -9,4 +9,4 @@ User: <USER>
 Password: <PASSWORD>
 ```
 3. Copy and paste your `IP`, `USER`, `PASSWORD`, `PORT` into [FileZilla](https://filezilla-project.org/) (or any other FTP client):
-![img.png](img.png)
+![https://github.com/Red-Eyed/python_ftp_server/blob/master/img.png](img.png)
