@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python_ftp_server"
-version = "1.3.1"
+version = "1.3.2"
 description = "Command line FTP server tool designed for performance and ease of use."
 authors = ["Vadym Stupakov <vadim.stupakov@gmail.com>"]
 license = "MIT"
@@ -17,15 +17,15 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.6"
-requires = [
-    "requests >= 2.26",
-    "pyftpdlib >= 1.5.6",
-    "pyopenssl >= 21.0.0",
-    "pysendfile; platform_system != 'Windows'"
-]
+python = ">=3.6,<=3.10"
+requests = { version = ">= 2.26" }
+pyftpdlib = { version = ">= 1.5.6" }
+pyopenssl = { version = ">= 21.0.0" }
+pysendfile = { version = ">= 2.0.1", markers = "platform_system != 'Windows'" }
+
 
 [tool.poetry.dev-dependencies]
-requires = [
-    "pyinstaller >= 4.7",
-]
+pyinstaller = { version = ">= 4.7" }
+
+[scripts]
+ftp_server = "python_ftp_server.ftp_server:main"
