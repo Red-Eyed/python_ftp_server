@@ -38,7 +38,7 @@ def get_hostname():
     return socket.gethostname()
 
 
-def get_global_ip():
+def get_public_ip():
     return requests.get('http://ip.42.pl/raw').text
 
 
@@ -91,12 +91,15 @@ def main():
     parser.add_argument("-p", "--password", type=str, default=generate_password(strength=20))
     parser.add_argument("-r", "--readonly", action="store_true")
     parser.add_argument("-d", "--dir", type=Path, default=Path().cwd())
-    parser.add_argument("-g", "--use_global", action="store_true")
-    parser.add_argument("--ip", type=str, default=get_hostname())
+    parser.add_argument("-g", "--use_public", action="store_true")
+    parser.add_argument("--ip", type=str, default=get_local_ip())
     parser.add_argument("--port", type=int, default=60000)
     parser.add_argument("--port_range", default=range(60001, 60101))
 
     args = parser.parse_args()
+
+    if args.use_public:
+        args.ip = get_public_ip()
 
     perm_read = "elr"
     perm_write = "adfmw"
@@ -131,13 +134,13 @@ def main():
     if "Linux" in platform.system():
         handler.use_sendfile = True
 
-    server = FTPServer((get_local_ip(), args.port), handler)
+    server = FTPServer((args.ip, args.port), handler)
 
     print("\n\n\n\n")
-    print(f"Local address: ftp://{get_local_ip()}:{args.port}")
+    print(f"Local address: ftp://{args.ip}:{args.port}")
 
-    if args.use_global:
-        print(f"Global address: ftp://{get_global_ip()}:{args.port}")
+    if args.use_public:
+        print(f"Global address: ftp://{args.ip}:{args.port}")
 
     print(f"User: {args.user}")
     print(f"Password: {args.password}")
