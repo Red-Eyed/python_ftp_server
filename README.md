@@ -1,7 +1,7 @@
 # FTP server to transfer files between machines with zero configuration
 ## Usage
-1. `python3 -m pip install python-ftp-server`
-2. `python3 -m python_ftp_server -d "dirctory/to/share"`
+1. `python -m pip install python-ftp-server`
+2. `python -m python_ftp_server -d "dirctory/to/share"`
 will print:
 ```bash
 Local address: ftp://<IP>:60000
