@@ -43,10 +43,6 @@ def get_hostname():
     return socket.gethostname()
 
 
-def get_public_ip():
-    return requests.get('http://ip.42.pl/raw').text
-
-
 def create_self_signed_cert(cert_file: Path, key_file: Path):
     if cert_file.exists() and key_file.exists():
         return
@@ -96,15 +92,11 @@ def main():
     parser.add_argument("-p", "--password", type=str, default=generate_password(strength=20))
     parser.add_argument("-r", "--readonly", action="store_true")
     parser.add_argument("-d", "--dir", type=Path, default=Path().cwd())
-    parser.add_argument("-g", "--use_public", action="store_true")
     parser.add_argument("--ip", type=str, default=get_local_ip())
     parser.add_argument("--port", type=int, default=60000)
     parser.add_argument("--port_range", default=range(60001, 60101))
 
     args = parser.parse_args()
-
-    if args.use_public:
-        args.ip = get_public_ip()
 
     perm_read = "elr"
     perm_write = "adfmw"
@@ -143,9 +135,6 @@ def main():
 
     print("\n\n\n\n")
     print(f"Local address: ftp://{args.ip}:{args.port}")
-
-    if args.use_public:
-        print(f"Global address: ftp://{args.ip}:{args.port}")
 
     print(f"User: {args.user}")
     print(f"Password: {args.password}")
